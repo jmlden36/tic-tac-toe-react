@@ -22,7 +22,6 @@ class Board extends React.Component {
       xIsNext: !this.state.xIsNext,
       counter: this.state.counter+1
     });
-    console.log(this.state.counter);
   }
 
   handleNewGame = () => {
@@ -35,7 +34,7 @@ class Board extends React.Component {
 
   renderSquare(i) {
     return (
-      <Square 
+      <Square
         value={this.state.squares[i]} 
         onClick={() => this.handleClick(i)}  
       />
@@ -43,14 +42,13 @@ class Board extends React.Component {
   }
 
   render() {
-    console.log(calculateWinner(this.state.squares, this.state.counter))
     const winner = calculateWinner(this.state.squares, this.state.counter);
     let status;
     if (winner === undefined) {
       status = "Draw";
     } else if (winner) {
       status = "Winner: " + winner;
-    
+
     } else {
       status = "Next player: " + (this.state.xIsNext ? 'X' : 'O');
     }
