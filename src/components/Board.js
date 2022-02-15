@@ -10,7 +10,7 @@ class Board extends React.Component {
       counter: 0,
     };
   }
-  
+
   handleClick(i) {
     const squares = this.state.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
@@ -23,6 +23,14 @@ class Board extends React.Component {
       counter: this.state.counter+1
     });
     console.log(this.state.counter);
+  }
+
+  handleNewGame = () => {
+    this.setState({
+      squares: Array(9).fill(null),
+      xIsNext: true,
+      counter: 0
+    });
   }
 
   renderSquare(i) {
@@ -65,6 +73,7 @@ class Board extends React.Component {
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
+        <button onClick={this.handleNewGame}>New Game</button> 
       </div>
     )
   }
