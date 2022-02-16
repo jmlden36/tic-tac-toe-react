@@ -1,12 +1,13 @@
 import React from "react";
 import Square from "./Square"
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       squares: Array(9).fill(null),
       xIsNext: true,
@@ -15,18 +16,17 @@ class Board extends React.Component {
   }
 
   handleClick(i) {
-    const { dispatch } = this.props;
-    const squares = this.state.squares.slice();
+    const squares = this.props.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
-    console.log(squares);
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    squares[i] = this.props.xIsNext ? 'X' : 'O';
+    const { dispatch } = this.props;
     const action = {
       type: 'TURN',
     }
+    this.setState({squares: squares});
     dispatch(action);
-    this.setState({squares: squares})
   }
 
   handleNewGame = () => {
@@ -40,14 +40,15 @@ class Board extends React.Component {
   renderSquare(i) {
     return (
       <Square
-        value={this.state.squares[i]} 
+        value={this.props.squares[i]} 
         onClick={() => this.handleClick(i)}  
+        // onClick={() => this.props.handleClick(i)}  
       />
     );
   }
 
   render() {
-    const winner = calculateWinner(this.state.squares, this.state.counter);
+    const winner = calculateWinner(this.props.squares, this.props.counter);
     let status;
     if (winner === undefined) {
       status = "Draw";
@@ -55,7 +56,7 @@ class Board extends React.Component {
       status = "Winner: " + winner;
 
     } else {
-      status = "Next player: " + (this.state.xIsNext ? 'X' : 'O');
+      status = "Next player: " + (this.props.xIsNext ? 'X' : 'O');
     }
 
     return (
@@ -76,7 +77,7 @@ class Board extends React.Component {
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
-        <button onClick={this.handleNewGame}>New Game</button> 
+        <button onClick={this.handleNewGame}>New Game</button>
       </div>
     )
   }
@@ -105,6 +106,20 @@ function calculateWinner(squares, counter) {
   return null;
 }
 
-Board = connect()(Board);
+Board.propTypes = {
+  squares: PropTypes.array,
+  xIsNext: PropTypes.bool,
+  counter: PropTypes.number
+}
+
+const mapStateToProps = state => {
+  return {
+    squares: state,//.squares,
+    xIsNext: state,//.xIsNext,
+    counter: state//.counter
+  }
+}
+
+Board = connect(mapStateToProps)(Board);
 
 export default Board;

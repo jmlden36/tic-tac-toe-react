@@ -14,6 +14,8 @@ export default (state = {}, action) => {
       xIsNext: true,
       counter: 0,
     });
+    // let newState = {...state};
+    // return newState;
   default:
     return state;
   }
