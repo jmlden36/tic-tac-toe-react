@@ -1,5 +1,8 @@
 import React from "react";
 import Square from "./Square"
+import { connect } from 'react-redux';
+
+
 
 class Board extends React.Component {
   constructor(props) {
@@ -12,17 +15,18 @@ class Board extends React.Component {
   }
 
   handleClick(i) {
+    const { dispatch } = this.props;
     const squares = this.state.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     console.log(squares);
     squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext,
-      counter: this.state.counter+1
-    });
+    const action = {
+      type: 'TURN',
+    }
+    dispatch(action);
+    this.setState({squares: squares})
   }
 
   handleNewGame = () => {
@@ -100,5 +104,7 @@ function calculateWinner(squares, counter) {
   }
   return null;
 }
+
+Board = connect()(Board);
 
 export default Board;

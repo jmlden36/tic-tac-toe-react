@@ -24,11 +24,12 @@ describe('ticTacToeReducer', () => {
   });
 
   test('Should correctly update the state to add 1 to counter and toggle xIsNext to false and change squares to the default square array with an X in square array[0]', () => {
-    const { squares, xIsNext, counter } = initialState;
+    const { xIsNext, counter } = initialState;
+
     action = {
       type: 'TURN',
       squares: [
-        'X',
+        "X",
         null,
         null,
         null,
