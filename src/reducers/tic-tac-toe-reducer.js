@@ -5,10 +5,16 @@ export default (state = {}, action) => {
     const counterPlus = counter+1;
     return Object.assign({}, state, {
       squares: squares,
-      xIsNext: !xIsNext,
-      counter: counterPlus
-    })
+      xIsNext: xIsNext,
+      counter: counter
+    });
+  case 'NEW_GAME':
+    return Object.assign({}, state, {
+      squares: Array(9).fill(null),
+      xIsNext: true,
+      counter: 0,
+    });
   default:
     return state;
-  }  
+  }
 };
