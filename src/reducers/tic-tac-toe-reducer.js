@@ -1,31 +1,17 @@
-export default (state = {}, action) => {
+export default (state = {squares: [null, null, null, null, null, null, null, null, null], xIsNext: true, counter: 0 }, action) => {
   const { squares, xIsNext, counter } = action;
   switch (action.type) {
   case 'TURN':
-    const counterPlus = counter+1;
-    // return Object.assign({}, state, {
-    //   squares: squares,
-    //   xIsNext: xIsNext,
-    //   counter: counter
-    // });
-    return {
-      ...state,
-      squares: squares,
-      xIsNext: xIsNext,
-      counter: counter
-    }
+    let newState = {...state};
+      return newState;
   case 'NEW_GAME':
-    // return Object.assign({}, state, {
+    return newState;
+    // return {
+    //   ...state,
     //   squares: Array(9).fill(null),
     //   xIsNext: true,
-    //   counter: 0,
-    // });
-    return {
-      ...state,
-      squares: Array(9).fill(null),
-      xIsNext: true,
-      counter: 0
-    }
+    //   counter: 0
+    // }
   default:
     return state;
   }

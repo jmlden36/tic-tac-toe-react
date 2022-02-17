@@ -17,7 +17,7 @@ class Board extends React.Component {
   }
 
   handleClick(i) {
-    const squares = this.state.squares.slice();
+    const squares = this.props.squares.slice();
     console.log(squares);
     if (calculateWinner(squares) || squares[i]) {
       console.log("handleClick calculate winner");
@@ -25,23 +25,23 @@ class Board extends React.Component {
     }
     console.log("squares in handleClick = " + squares);
     // squares = this.props.xIsNext ? 'X' : 'O';
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    squares[i] = this.props.xIsNext ? 'X' : 'O';
     console.log(squares);
     const { dispatch } = this.props;
     const action = {
       type: 'TURN',
       squares: squares,
-      xIsNext: !this.state.xIsNext,
-      counter: this.state.counter+1
+      xIsNext: !this.props.xIsNext,
+      counter: this.props.counter+1
     }
     dispatch(action);
   }
 
   handleNewGame = () => {
     console.log("running handleNewGame");
-    const squares = this.state.squares.slice();
-    const xIsNext = this.state.xIsNext;
-    const counter = this.state.counter;
+    const squares = this.props.squares.slice();
+    const xIsNext = this.props.xIsNext;
+    const counter = this.props.counter;
     console.log(squares);
     const { dispatch } = this.props;
     const action = {
@@ -59,14 +59,14 @@ class Board extends React.Component {
     // console.log("renderSquare reached");
     return (
       <Square
-        value={this.state.squares[i]}
+        value={this.props.squares[i]}
         onClick={() => this.handleClick(i)}
       />
     );
   }
 
   render() {
-    const winner = calculateWinner(this.state.squares, this.state.counter);
+    const winner = calculateWinner(this.props.squares, this.props.counter);
     console.log("winner is " + winner);
     let status;
     if (winner === undefined) {
@@ -133,9 +133,9 @@ Board.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    squares: state.squares,
-    xIsNext: state.xIsNext,
-    counter: state.counter
+    squares: state,
+    xIsNext: state,
+    counter: state
   }
 }
 
