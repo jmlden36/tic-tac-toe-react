@@ -2,6 +2,7 @@ import React from "react";
 import Square from "./Square"
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import * as a from './../actions';
 
 class Board extends React.Component {
   constructor(props) {
@@ -10,19 +11,23 @@ class Board extends React.Component {
       squares: Array(9).fill(null),
       xIsNext: true
     };
+    console.log(props)
   }
 
   handleClick(i) {
-    const squares = this.state.squares.slice();
+    const { dispatch } = this.props;
+    const squares = this.props.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     console.log(squares);
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext,
-    });
+    squares[i] = this.props.xIsNext ? 'X' : 'O';
+    const currentXisNext = this.props.xIsNext;
+    const action = a.updateBoard(i);
+    dispatch(action);
+    const action2 = a.turn(currentXisNext);
+    dispatch(action2);
+    console.log(squares[i])
   }
 
   handleNewGame = () => {
@@ -33,21 +38,24 @@ class Board extends React.Component {
   }
 
   renderSquare(i) {
+    // console.log(this.props.squares[i])
     return (
+      
       <Square
-        value={this.state.squares[i]} 
+        value={this.props.squares[i]} 
         onClick={() => this.handleClick(i)}  
       />
     );
+    
   }
 
   render() {
-    const winner = calculateWinner(this.state.squares);
+    const winner = calculateWinner(this.props.squares);
     let status;
     if (winner) {
       status = "Winner: " + winner;
     } else {
-      status = "Next player: " + (this.state.xIsNext ? 'X' : 'O');
+      status = "Next player: " + (this.props.xIsNext ? 'X' : 'O');
     }
 
     return (
