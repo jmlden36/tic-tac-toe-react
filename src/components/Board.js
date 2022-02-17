@@ -1,5 +1,7 @@
 import React from "react";
 import Square from "./Square"
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class Board extends React.Component {
   constructor(props) {
@@ -92,5 +94,19 @@ function calculateWinner(squares) {
   }
   return null;
 }
+
+Board.propTypes = {
+  squares: PropTypes.array,
+  xIsNext: PropTypes.bool
+};
+
+const mapStateToProps = state => {
+  return {
+    squares: state.squares,
+    xIsNext: state.xIsNext
+  }
+}
+
+Board = connect(mapStateToProps)(Board);
 
 export default Board;
